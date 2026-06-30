@@ -32,7 +32,10 @@ task runExercise(type: JavaExec) {
 
     classpath = sourceSets.main.runtimeClasspath
 
-    mainClass.set(project.hasProperty('className') ? project.getProperty('className').toString() : 'week07.HelloJavaFXLauncher')
+    mainClass.set('week07.Launcher')
+    
+    // Pass the target class name as the first command line argument to the Launcher
+    args(project.hasProperty('className') ? project.getProperty('className').toString() : 'week07.First')
 
     // Support interactive console applications
     standardInput = System.in
