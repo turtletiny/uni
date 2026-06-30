@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+// Default application main class when running `./gradlew run`
+application {
+    mainClass.set('week07.First')
+}
+
+// Custom task to run any specific exercise class
+// Usage: ./gradlew runExercise -PclassName=week07.HelloJavaFXLauncher
+// Windows: gradlew.bat runExercise -PclassName=week07.HelloJavaFXLauncher
+task runExercise(type: JavaExec) {
+    group = 'application'
+    description = 'Runs a specific JavaFX exercise. Usage: ./gradlew runExercise -PclassName=week07.YourClass'
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    mainClass.set(project.hasProperty('className') ? project.getProperty('className').toString() : 'week07.HelloJavaFXLauncher')
+
+    // Support interactive console applications
+    standardInput = System.in
+}
