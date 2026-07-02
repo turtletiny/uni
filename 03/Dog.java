@@ -1,3 +1,4 @@
-test1213
-lfskjlkfd
-    
+class Dog {
+  double weight;
+  double length;
+}
