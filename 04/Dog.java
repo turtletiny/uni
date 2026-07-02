@@ -1,7 +1,6 @@
 abstract class Dog {
     public static void main(String[] args) {
         Poodle poodle = new Poodle("alaina");
-        Dog dog = new Dog("noob");
     }
 
     protected String name;
@@ -11,11 +10,42 @@ abstract class Dog {
         this.name = name;
         this.breed = breed;
     }
+
+    abstract void bark();
+}
+
+abstract class BigDog extends Dog {
+
+    BigDog(String name, Breed breed) {
+        super(name, breed);
+    }
+
+    abstract void guardProperty();
 }
 
 class Poodle extends Dog {
     Poodle(String name) {
-        super(NAME, Breed.GERMAN_SHEPHERD);
+        super(name, Breed.GERMAN_SHEPHERD);
+    }
+
+    @Override
+    void bark() {
+        System.out.println(super.name + " the poodle, yaps");
+    }
+}
+
+class GermanShepherd extends BigDog {
+    GermanShepherd(String name) {
+        super(name, Breed.GERMAN_SHEPHERD);
+    }
+
+    @Override
+    void bark() {
+        System.out.println(super.name + " the Germ, barks deeply");
+    }
+
+    void guardProperty() {
+        System.out.println("guards property with with aura");
     }
 }
 
