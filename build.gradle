@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['01', '02', '03', '04', '05', '06', '07', '08', 'General']
+        }
+    }
+}
