@@ -1,3 +1,9 @@
+
+public class Starcraft {
+    public static void main(String[] args) {
+        Wraith wraith = new Wraith();
+    }
+} 
 enum Weapon {
     MACHINE_GUN(6, 6, 4),
     FLAME_THROWER(8, 0, 2),
@@ -24,16 +30,17 @@ interface GroundUnit {
 interface AirbourneUnit {
 
 }
-weapon
+
 interface UseStimPack {
     void activateStimpack();
-}weapon
+
+}
 
 interface UseCloak {
     void activateCloak();
 }
 
-class Marine implements UseStimPack, AirbourneUnit{
+class Marine implements UseStimPack, AirbourneUnit {
 
     private final Weapon WEAPON;
     private final int MAX_HEALTH;
@@ -61,7 +68,7 @@ class Wraith implements AirbourneUnit {
     private final Weapon WEAPON;
     private int currentHealth;
     private int speed;
-    
+
     Wraith() {
         this.WEAPON = Weapon.C_10_RIFLE;
         this.MAX_HEALTH = 50;
@@ -71,7 +78,7 @@ class Wraith implements AirbourneUnit {
 
     int getGroundDamage() {
         return 8;
-}
+    }
 
     int getAirDamage() {
         return 20;
@@ -84,6 +91,44 @@ class Firebat implements UseStimPack {
     private final int MAX_HEALTH;
     private int currentHealth;
     private int speed;
-    
-    
+
+    Firebat() {
+        this.WEAPON = Weapon.FLAME_THROWER;
+        this.stimpackActive = false;
+        this.MAX_HEALTH = 50;
+        this.currentHealth = 50;
+        this.speed = 4;
+    }
+
+    @Override
+    public void activateStimpack() {
+        this.stimpackActive = true;
+    }
+
+}
+
+class Ghost implements UseCloak {
+
+    boolean cloakActive;
+    private final Weapon WEAPON;
+    private final int MAX_HEALTH;
+    private int currentHealth;
+    private int speed;
+
+    Ghost() {
+        this.cloakActive = false;
+        this.WEAPON = Weapon.C_10_RIFLE;
+        this.MAX_HEALTH = 50;
+        this.currentHealth = 50;
+        this.speed = 7;
+    }
+
+    @Override
+    public void activateCloak() {
+        this.cloakActive = true;
+    }
+}
+
+class Squad {
+    ArrayList<>
 }
