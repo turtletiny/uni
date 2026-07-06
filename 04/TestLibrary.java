@@ -162,7 +162,7 @@ enum ListeningDuration {
     WHOLE_DURATION
 }
 
-class TestLibrary {
+public class TestLibrary {
 
     public static void main(String[] args) {
         AudioTrack[] library = {new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
