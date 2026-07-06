@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -66,8 +65,7 @@ class Podcast extends AudioTrack {
     }
 
     public String toString() {
-        return this.name + "Episode no: " + this.episodeNumber
-                + "Hosted by " + this.host + " - " + this.durationInSeconds;
+        return this.name + " Ep " + this.episodeNumber;
 
     }
 }
@@ -90,7 +88,7 @@ class Song extends AudioTrack {
     }
 
     public String toString() {
-        return this.artist + "-" + this.name + " - " + this.durationInSeconds + " seconds.";
+        return this.artist + "-" + this.name;
     }
 }
 
@@ -133,10 +131,75 @@ interface PlaySongs {
     void playSongs(ArrayList<Song> songs);
 }
 
-class MusicPlayer {
+class MusicPlayer implements ListPodcasts, ListSongs, PlaySongs {
 
     AudioTrack[] library;
     PlayMode currentPlayMode;
+
+    MusicPlayer(AudioTrack[] library) {
+        this.library = library;
+        this.currentPlayMode = PlayMode.LINEAR;
+    }
+
+    @Override
+    public ArrayList<Podcast> listPodcasts() {
+        ArrayList<Podcast> podcasts = new ArrayList<>();
+        for (AudioTrack a : this.library) {
+            if (a instanceof Podcast) {
+                podcasts.add((Podcast) a);
+            }
+        }
+        return podcasts;
+    }
+
+    @Override
+    public ArrayList<Song> listSongs() {
+        ArrayList<Song> songs = new ArrayList<>();
+        for (AudioTrack a : this.library) {
+            if (a instanceof Song) {
+                songs.add((Song) a);
+            }
+        }
+        return songs;
+    }
+
+    @Override
+    public ArrayList<Song> listSongs(String artist) {
+        ArrayList<Song> songs = new ArrayList<>();
+        for (AudioTrack a : this.library) {
+            if (a instanceof Song && ((Song) a).artist.equals(artist)) {
+                songs.add((Song) a);
+            }
+        }
+        return songs;
+    }
+
+    @Override
+    public void playSongs(ArrayList<Song> songs) {
+        if (this.currentPlayMode == PlayMode.LINEAR) {
+            for (Song s : songs) {
+                s.play();
+            }
+        } else if (this.currentPlayMode == PlayMode.REPEAT) {
+            while (true) {
+                for (Song s : songs) {
+                    s.play();
+                }
+                String choice = ""; 
+                //String choice = In.nextLine();
+                if (choice.equals("y")) {
+                    System.out.println("Playlist stopped.");
+                    break;
+                }
+            }
+        } else if (this.currentPlayMode == PlayMode.SHUFFLE) {
+
+
+        }
+
+
+    }
+
 }
 
 enum PlayMode {
@@ -179,5 +242,7 @@ public class TestLibrary {
             new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
             new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
             398)};
+        MusicPlayer musicplayer = new MusicPlayer(library);
+        System.out.println(musicplayer.listPodcasts());
     }
 }
