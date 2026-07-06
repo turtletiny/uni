@@ -1,9 +1,13 @@
 
+import java.util.ArrayList;
+
 public class Starcraft {
+
     public static void main(String[] args) {
         Wraith wraith = new Wraith();
     }
-} 
+}
+
 enum Weapon {
     MACHINE_GUN(6, 6, 4),
     FLAME_THROWER(8, 0, 2),
@@ -32,11 +36,13 @@ interface AirbourneUnit {
 }
 
 interface UseStimPack {
+
     void activateStimpack();
 
 }
 
 interface UseCloak {
+
     void activateCloak();
 }
 
@@ -86,6 +92,7 @@ class Wraith implements AirbourneUnit {
 }
 
 class Firebat implements UseStimPack {
+
     boolean stimpackActive;
     private final Weapon WEAPON;
     private final int MAX_HEALTH;
@@ -130,5 +137,33 @@ class Ghost implements UseCloak {
 }
 
 class Squad {
-    ArrayList<>
+
+    ArrayList<GroundUnit> groundUnits = new ArrayList<>();
+    ArrayList<AirbourneUnit> airUnits = new ArrayList<>();
+
+    public void activateStimpack() {
+        for (GroundUnit i : this.groundUnits) {
+            if (i instanceof UseStimPack) {
+                ((UseStimPack) i).activateStimpack();
+            }
+        }
+        for (AirbourneUnit i : this.airUnits) {
+            if (i instanceof UseStimPack) {
+                ((UseStimPack) i).activateStimpack();
+            }
+        }
+    }
+
+    public void activateCloak() {
+        for (GroundUnit i : this.groundUnits) {
+            if (i instanceof UseCloak) {
+                ((UseCloak) i).activateCloak();
+            }
+        }
+        for (AirbourneUnit i : this.airUnits) {
+            if (i instanceof UseCloak) {
+                ((UseCloak) i).activateCloak();
+            }
+        }
+    }
 }

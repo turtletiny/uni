@@ -1,7 +1,9 @@
+
 import java.util.ArrayList;
 import java.util.Random;
 
 abstract class AudioTrack {
+
     int durationInSeconds;
     String name;
     ListeningDuration listeningDuration;
@@ -44,6 +46,7 @@ abstract class AudioTrack {
 }
 
 class Podcast extends AudioTrack {
+
     // Podcasts are created by 'hosts'
     String host;
     PodcastGenre genre;
@@ -61,9 +64,16 @@ class Podcast extends AudioTrack {
         System.out.println("Starting podcast '" + this.host + "', episide #" + this.episodeNumber);
         return super.play();
     }
+
+    public String toString() {
+        return this.name + "Episode no: " + this.episodeNumber
+                + "Hosted by " + this.host + " - " + this.durationInSeconds;
+
+    }
 }
 
 class Song extends AudioTrack {
+
     String artist;
     MusicGenre genre;
 
@@ -77,6 +87,10 @@ class Song extends AudioTrack {
     ListeningDuration play() {
         System.out.println("Starting song '" + this.artist + "Genre: " + this.genre);
         return super.play();
+    }
+
+    public String toString() {
+        return this.artist + "-" + this.name + " - " + this.durationInSeconds + " seconds.";
     }
 }
 
@@ -96,14 +110,17 @@ enum PodcastGenre {
 }
 
 class PlayList {
+
     ArrayList<Integer> tracks;
 }
 
 interface ListPodcasts {
+
     ArrayList<Podcast> listPodcasts();
 }
 
 interface ListSongs {
+
     // List all songs
     ArrayList<Song> listSongs();
 
@@ -112,10 +129,12 @@ interface ListSongs {
 }
 
 interface PlaySongs {
+
     void playSongs(ArrayList<Song> songs);
 }
 
 class MusicPlayer {
+
     AudioTrack[] library;
     PlayMode currentPlayMode;
 }
@@ -144,20 +163,21 @@ enum ListeningDuration {
 }
 
 class TestLibrary {
+
     public static void main(String[] args) {
-        AudioTrack[] library = { new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
-                new Song("Enter Sandman", 331, "Metallica", MusicGenre.METAL),
-                new Podcast("The Joe Rogan Experience: Robert Kennedy, Jr", 10800, "Joe Rogan", PodcastGenre.COMEDY,
-                        1999),
-                new Song("Aces High", 271, "Iron Maiden", MusicGenre.METAL),
-                new Podcast("The Joe Rogan Experience: Mike Tyson", 9000, "Joe Rogan", PodcastGenre.COMEDY,
-                        1532),
-                new Song("Moonshield", 301, "In Flames", MusicGenre.METAL),
-                new Song("Mesmeric Horror", 314, "Inferi ", MusicGenre.METAL),
-                new Song("Eye of the Tiger", 245, "Survivor", MusicGenre.ROCK),
-                new Song("Beat It", 258, "Michael Jackson", MusicGenre.POP),
-                new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
-                new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
-                        398) };
+        AudioTrack[] library = {new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
+            new Song("Enter Sandman", 331, "Metallica", MusicGenre.METAL),
+            new Podcast("The Joe Rogan Experience: Robert Kennedy, Jr", 10800, "Joe Rogan", PodcastGenre.COMEDY,
+            1999),
+            new Song("Aces High", 271, "Iron Maiden", MusicGenre.METAL),
+            new Podcast("The Joe Rogan Experience: Mike Tyson", 9000, "Joe Rogan", PodcastGenre.COMEDY,
+            1532),
+            new Song("Moonshield", 301, "In Flames", MusicGenre.METAL),
+            new Song("Mesmeric Horror", 314, "Inferi ", MusicGenre.METAL),
+            new Song("Eye of the Tiger", 245, "Survivor", MusicGenre.ROCK),
+            new Song("Beat It", 258, "Michael Jackson", MusicGenre.POP),
+            new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
+            new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
+            398)};
     }
 }
