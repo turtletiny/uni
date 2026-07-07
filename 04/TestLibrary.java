@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Arrays;
+import java.util.List;
 
 abstract class AudioTrack {
 
@@ -11,7 +13,7 @@ abstract class AudioTrack {
     AudioTrack(String name, int durationInSeconds) {
         this.name = name;
         this.durationInSeconds = durationInSeconds;
-        this.listeningDuration = ListeningDuration.YET_TO_LISTEN;
+        this.listeningDuration = ListeningDuration.WHOLE_DURATION;
         this.rand = new Random();
     }
 
@@ -20,9 +22,7 @@ abstract class AudioTrack {
     ListeningDuration play() {
         if (this.listeningDuration == ListeningDuration.YET_TO_LISTEN) {
             System.out.println("Haven't starting playing " + this.name);
-        }
-
-        if (this.listeningDuration == ListeningDuration.WHOLE_DURATION) {
+        } else if (this.listeningDuration == ListeningDuration.WHOLE_DURATION) {
             System.out.println(this.name + " is already over");
         }
         int choice = rand.nextInt(5);
@@ -83,7 +83,7 @@ class Song extends AudioTrack {
 
     @Override
     ListeningDuration play() {
-        System.out.println("Starting song '" + this.artist + "Genre: " + this.genre);
+        System.out.println("Starting '" + this.artist + " - " + this.name);
         return super.play();
     }
 
@@ -141,6 +141,11 @@ class MusicPlayer implements ListPodcasts, ListSongs, PlaySongs {
         this.currentPlayMode = PlayMode.LINEAR;
     }
 
+    MusicPlayer(AudioTrack[] library, PlayMode playmode) {
+        this.library = library;
+        this.currentPlayMode = playmode;
+    }
+
     @Override
     public ArrayList<Podcast> listPodcasts() {
         ArrayList<Podcast> podcasts = new ArrayList<>();
@@ -174,6 +179,12 @@ class MusicPlayer implements ListPodcasts, ListSongs, PlaySongs {
         return songs;
     }
 
+    public void setPlayMode(PlayMode playmode) {
+        if (playmode != null) {
+            this.currentPlayMode = playmode;
+        }
+    }
+
     @Override
     public void playSongs(ArrayList<Song> songs) {
         if (this.currentPlayMode == PlayMode.LINEAR) {
@@ -185,18 +196,22 @@ class MusicPlayer implements ListPodcasts, ListSongs, PlaySongs {
                 for (Song s : songs) {
                     s.play();
                 }
-                String choice = ""; 
-                //String choice = In.nextLine();
-                if (choice.equals("y")) {
+                System.out.println("Would you like to keep playing?");
+                String choice = In.nextLine();
+                if (!choice.equals("y")) {
                     System.out.println("Playlist stopped.");
                     break;
                 }
             }
         } else if (this.currentPlayMode == PlayMode.SHUFFLE) {
-
+            Random rand = new Random();
+            while (songs.size() > 0) {
+                int choice = rand.nextInt(songs.size());
+                songs.get(choice).play();
+                songs.remove(choice);
+            }
 
         }
-
 
     }
 
@@ -228,21 +243,22 @@ enum ListeningDuration {
 public class TestLibrary {
 
     public static void main(String[] args) {
-        AudioTrack[] library = {new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
-            new Song("Enter Sandman", 331, "Metallica", MusicGenre.METAL),
-            new Podcast("The Joe Rogan Experience: Robert Kennedy, Jr", 10800, "Joe Rogan", PodcastGenre.COMEDY,
-            1999),
-            new Song("Aces High", 271, "Iron Maiden", MusicGenre.METAL),
-            new Podcast("The Joe Rogan Experience: Mike Tyson", 9000, "Joe Rogan", PodcastGenre.COMEDY,
-            1532),
-            new Song("Moonshield", 301, "In Flames", MusicGenre.METAL),
-            new Song("Mesmeric Horror", 314, "Inferi ", MusicGenre.METAL),
-            new Song("Eye of the Tiger", 245, "Survivor", MusicGenre.ROCK),
-            new Song("Beat It", 258, "Michael Jackson", MusicGenre.POP),
-            new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
-            new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
-            398)};
+        AudioTrack[] library = { new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
+                new Song("Enter Sandman", 331, "Metallica", MusicGenre.METAL),
+                new Podcast("The Joe Rogan Experience: Robert Kennedy, Jr", 10800, "Joe Rogan", PodcastGenre.COMEDY,
+                        1999),
+                new Song("Aces High", 271, "Iron Maiden", MusicGenre.METAL),
+                new Podcast("The Joe Rogan Experience: Mike Tyson", 9000, "Joe Rogan", PodcastGenre.COMEDY,
+                        1532),
+                new Song("Moonshield", 301, "In Flames", MusicGenre.METAL),
+                new Song("Mesmerc Horror", 314, "Inferi ", MusicGenre.METAL),
+                new Song("Eye of the Tiger", 245, "Survivor", MusicGenre.ROCK),
+                new Song("Beat It", 258, "Michael Jackson", MusicGenre.POP),
+                new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
+                new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
+                        398) };
         MusicPlayer musicplayer = new MusicPlayer(library);
-        System.out.println(musicplayer.listPodcasts());
+        musicplayer.setPlayMode(PlayMode.SHUFFLE);
+        musicplayer.playSongs(musicplayer.listSongs());
     }
 }
