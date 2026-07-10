@@ -1,7 +1,7 @@
+
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Scanner;
 
 abstract class AudioTrack {
 
@@ -41,7 +41,6 @@ abstract class AudioTrack {
         }
         return this.listeningDuration;
     }
-
 }
 
 class Podcast extends AudioTrack {
@@ -66,7 +65,6 @@ class Podcast extends AudioTrack {
 
     public String toString() {
         return this.name + " Ep " + this.episodeNumber;
-
     }
 }
 
@@ -124,7 +122,7 @@ interface ListSongs {
 
     // List songs by artist
     ArrayList<Song> listSongs(String artist);
-}
+} 
 
 interface PlaySongs {
 
@@ -189,15 +187,15 @@ class MusicPlayer implements ListPodcasts, ListSongs, PlaySongs {
     public void playSongs(ArrayList<Song> songs) {
         if (this.currentPlayMode == PlayMode.LINEAR) {
             for (Song s : songs) {
-                s.play();
+                System.out.println(s.play());
             }
         } else if (this.currentPlayMode == PlayMode.REPEAT) {
             while (true) {
                 for (Song s : songs) {
-                    s.play();
-                }
+                    System.out.println(s.play());                }
                 System.out.println("Would you like to keep playing?");
-                String choice = In.nextLine();
+                Scanner scanner = new Scanner(System.in);
+                String choice = scanner.nextLine();
                 if (!choice.equals("y")) {
                     System.out.println("Playlist stopped.");
                     break;
@@ -210,11 +208,8 @@ class MusicPlayer implements ListPodcasts, ListSongs, PlaySongs {
                 songs.get(choice).play();
                 songs.remove(choice);
             }
-
         }
-
     }
-
 }
 
 enum PlayMode {
@@ -243,22 +238,22 @@ enum ListeningDuration {
 public class TestLibrary {
 
     public static void main(String[] args) {
-        AudioTrack[] library = { new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
-                new Song("Enter Sandman", 331, "Metallica", MusicGenre.METAL),
-                new Podcast("The Joe Rogan Experience: Robert Kennedy, Jr", 10800, "Joe Rogan", PodcastGenre.COMEDY,
-                        1999),
-                new Song("Aces High", 271, "Iron Maiden", MusicGenre.METAL),
-                new Podcast("The Joe Rogan Experience: Mike Tyson", 9000, "Joe Rogan", PodcastGenre.COMEDY,
-                        1532),
-                new Song("Moonshield", 301, "In Flames", MusicGenre.METAL),
-                new Song("Mesmerc Horror", 314, "Inferi ", MusicGenre.METAL),
-                new Song("Eye of the Tiger", 245, "Survivor", MusicGenre.ROCK),
-                new Song("Beat It", 258, "Michael Jackson", MusicGenre.POP),
-                new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
-                new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
-                        398) };
+        AudioTrack[] library = {new Song("Gangnam Style", 219, "Psy", MusicGenre.POP),
+            new Song("Enter Sandman", 331, "Metallica", MusicGenre.METAL),
+            new Podcast("The Joe Rogan Experience: Robert Kennedy, Jr", 10800, "Joe Rogan", PodcastGenre.COMEDY,
+            1999),
+            new Song("Aces High", 271, "Iron Maiden", MusicGenre.METAL),
+            new Podcast("The Joe Rogan Experience: Mike Tyson", 9000, "Joe Rogan", PodcastGenre.COMEDY,
+            1532),
+            new Song("Moonshield", 301, "In Flames", MusicGenre.METAL),
+            new Song("Mesmerc Horror", 314, "Inferi ", MusicGenre.METAL),
+            new Song("Eye of the Tiger", 245, "Survivor", MusicGenre.ROCK),
+            new Song("Beat It", 258, "Michael Jackson", MusicGenre.POP),
+            new Song("Ode To Joy", 660, "Ludwig van Beethoven", MusicGenre.CLASSICAL),
+            new Podcast("Lex Fridman Podcast: Mark Zuckerberg", 3840, "Lex Fridman", PodcastGenre.TECHNOLOGY,
+            398)};
         MusicPlayer musicplayer = new MusicPlayer(library);
-        musicplayer.setPlayMode(PlayMode.SHUFFLE);
+        musicplayer.setPlayMode(PlayMode.LINEAR);
         musicplayer.playSongs(musicplayer.listSongs());
     }
 }

@@ -111,7 +111,6 @@ class Firebat implements UseStimPack {
     public void activateStimpack() {
         this.stimpackActive = true;
     }
-
 }
 
 class Ghost implements UseCloak {
