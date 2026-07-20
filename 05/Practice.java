@@ -4,6 +4,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+class Practice {
+  public static void main(String[] args) {
+   Playlist playlist = new Playlist(); 
+    Song song = new Song("Vanilla Sky", "Bladee", 100, 5);
+    playlist.songs.add(song);
+    playlist.rankByPopularity();
+  }
+}
+
 class Song {
   String title;
   String artist;
@@ -32,6 +41,10 @@ class Song {
   public double getRating() {
     return this.rating;
   }
+
+  public String toString() {
+    return this.artist + " - " + this.title;
+  }
 }
 
 class Playlist {
@@ -54,13 +67,14 @@ class Playlist {
   }
 
   public void rankByPopularity() {
-    for (Song s : Collections.sort(this.songs, BY_ARTIST_THEN_RATING) {
-
+    Collections.sort(this.songs, BY_ARTIST_THEN_RATING);
+    for (Song s : this.songs) {
+      System.out.println(s);
     }
   }
 }
 
-public class Practice {
+ class Data {
 
   public static void printStats(int start) {
 
@@ -81,3 +95,52 @@ public class Practice {
     }
   }
 }
+
+
+class Flight {
+  String flightNumber;
+  int departureTime;
+  String gateNumber;
+
+  Flight(String flightNumber, int departureTime, String gateNumber) {
+    this.flightNumber = flightNumber;
+    this.departureTime = departureTime;
+    this.gateNumber = gateNumber;
+  }
+
+  public int getDepartureTime() {
+    return this.departureTime;
+  }
+
+  public String getFlightNumber() {
+    return this.flightNumber;
+  }
+
+
+}
+
+class AirportSchedule {
+  List<Flight> schedule;
+  static Comparator<Flight> comparator = Comparator.comparing(Flight::getDepartureTime)
+  .thenComparing(Flight::getFlightNumber);
+
+  AirportSchedule() {
+    this.schedule = new ArrayList<>();
+  }
+
+  public int findFlightIndex(Flight targetFlight) {
+    Collections.sort(this.schedule, comparator);
+    return Collections.binarySearch(this.schedule, targetFlight, comparator);
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
